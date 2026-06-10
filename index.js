@@ -6,6 +6,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("Backend Running 🚀");
+});
+
 // Register API
 app.post("/register", (req, res) => {
   const { email, password } = req.body;
