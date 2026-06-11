@@ -3,9 +3,18 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(cors());
+// CORS Fix
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
+// Home Route
 app.get("/", (req, res) => {
   res.send("Backend Running 🚀");
 });
@@ -14,7 +23,7 @@ app.get("/", (req, res) => {
 app.post("/register", (req, res) => {
   const { email, password } = req.body;
 
-  console.log(email, password);
+  console.log("Register:", email, password);
 
   res.json({
     success: true,
@@ -26,7 +35,7 @@ app.post("/register", (req, res) => {
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
 
-  console.log(email, password);
+  console.log("Login:", email, password);
 
   res.json({
     success: true,
@@ -38,12 +47,18 @@ app.post("/login", (req, res) => {
 app.post("/forgot-password", (req, res) => {
   const { email } = req.body;
 
+  console.log("Forgot Password:", email);
+
   res.json({
     success: true,
-    message: "Reset link sent",
+    message: "Password Reset Link Sent",
   });
 });
 
-app.listen(5000, () => {
-  console.log("Server Running On Port 5000");
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
+
+module.exports = app;
